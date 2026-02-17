@@ -1,5 +1,7 @@
+
 <template>
 
+  <FinalizarCompra v-if="mostrarFinalizar" />
 
   <!-- Cabeçario -->
   <header>
@@ -28,16 +30,18 @@
 
   </header>
 
+  <div>
+    <div class="pesquisa">
 
-  <div class="pesquisa">
+      <input type='text' v-model='produto' @keyup.enter="copiou" class='inputProdut' autofocus
+        placeholder="  Escanei o codigo" />
 
-    <input type='text' v-model='produto' @keyup.enter="copiou" class='inputProdut' autofocus
-      placeholder="  Escanei o codigo" />
+      <p class="x">X</p>
 
-    <p class="x">X</p>
-
-    <input v-model="quant" class="quant" type="text" />
+      <input v-model="quant" class="quant" type="text" />
+    </div>
   </div>
+  
 
 
 
@@ -97,9 +101,13 @@ import { ShoppingCartIcon } from '@heroicons/vue/24/solid'
 </script> -->
 
 <script>
-
+import FinalizarCompra from "./components/FinalizarCompra.vue"
 
 export default {
+  components: {
+    FinalizarCompra
+  },
+  
   data() {
     return {
       produto: "", //7898912284129
@@ -109,12 +117,18 @@ export default {
       lista: [],
       listaObjetos: [
         { codigo: "", nome: "", valor: 0, quantidade: 0 },
-        {}]
+        {}],
+      mostrarFinalizar: true,
     };
   },
   methods: {
     TelaPaga() {
-      alert("clicou");
+      if(this.mostrarFinalizar == true){
+        this.mostrarFinalizar = false;
+      }else{
+        this.mostrarFinalizar = true;
+      }
+      
     },
     copiou() {
       if (this.produto && this.produto != " ") {
@@ -135,22 +149,22 @@ export default {
 
 
 </script>
-
 <style>
-#app {
+#app{
+  align-items: center;
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  margin-top: 60px;
   font-size: 20px;
-
 }
+</style>
+
+<style scoped>
+
 
 header {
   max-height: 100vh;
   width: 100px;
-  margin-top: -70px;
+  margin-top: -8vh;
   margin-left: -5px;
   padding-bottom: 80px;
   z-index: 1;
@@ -179,7 +193,7 @@ header {
   display: flex;
   justify-content: space-evenly;
   margin: 0 10% 0 5%;
-  align-items: center;
+  margin-top: 8vh;
 }
 
 .inputProdut {
@@ -230,6 +244,7 @@ header {
   border-radius: 10px;
   background-color: var(--colorBranco);
   position: relative;
+  
 }
 
 .botao {
@@ -242,6 +257,7 @@ header {
   color: var(--colorBranco);
   box-shadow: 2px;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
   /*sombra*/
 
 
