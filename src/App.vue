@@ -33,20 +33,27 @@
   <div>
     <div class="pesquisa">
 
-      <input type='text' v-model='produto' @keyup.enter="copiou" class='inputProdut' autofocus
+      <input type='text' v-model='produto' @keyup.enter="copiou" @input="buscarProdutos(produto)" class='inputProdut' autofocus
         placeholder="  Escanei o codigo" />
 
       <p class="x">X</p>
 
       <input v-model="quant" class="quant" type="text" />
     </div>
+
+    <ul v-if="produtos.length" class="listaResposte">
+        <li v-for="(item, index) in produtos" :key="index" @click="escolheuProdut(item)">
+          <p>{{ item.nome }}</p> <p>{{ item.precovenda }}</p> 
+        </li>
+    </ul>
+
   </div>
   
 
 
 
 
-  <ul>
+  <ul class="UlLista">
     <li>
       <p v-for="(item, index) in lista" :key="index" class="lista">
         {{ index + 1 }} - {{ item }}
@@ -79,14 +86,6 @@
 
     </div>
 
-
-
-    <section class="caixa">
-
-    </section>
-
-
-
   </main>
 
 
@@ -101,6 +100,7 @@ import { ShoppingCartIcon } from '@heroicons/vue/24/solid'
 </script> -->
 
 <script>
+import axios from 'axios'
 import FinalizarCompra from "./components/FinalizarCompra.vue"
 
 export default {
@@ -110,7 +110,6 @@ export default {
   
   data() {
     return {
-      produto: "", //7898912284129
       quant: "1",
       valor: 0,
       tdPro: 0,
@@ -118,9 +117,12 @@ export default {
       listaObjetos: [
         { codigo: "", nome: "", valor: 0, quantidade: 0 },
         {}],
-      mostrarFinalizar: true,
+      mostrarFinalizar: false,
+      produto: '',
+      produtos: []
     };
   },
+
   methods: {
     TelaPaga() {
       if(this.mostrarFinalizar == true){
@@ -142,6 +144,21 @@ export default {
     },
     apagar() {
       alert("apagou");
+    },
+
+    async buscarProdutos(produto) {
+      if (produto.length > 2) {
+        const response = await axios.get(
+          `http://localhost:3000/prods/label/${produto}`
+        )
+        this.produtos = response.data
+      }
+    },
+
+    escolheuProdut(item){
+      this.lista.push(item.nome);
+      this.produto = "";
+      this.produtos = [];
     }
   },
 };
@@ -271,7 +288,7 @@ header {
   margin-left: -40%;
 }
 
-ul {
+.UlLista {
   position: absolute;
   right: 5vw;
   margin-top: 20vh;
@@ -290,5 +307,34 @@ ul {
   align-items: center;
 }
 
-.caixa {}
+.listaResposte {
+  position: absolute;
+  width: 50%;
+  max-height: 50vh;
+  font-size: 20px;
+  z-index: 2;
+  margin-left: calc(5px + 10%);
+  border: none;
+  border: var(--colorVerde) 2px solid;
+  border-radius: 10px;
+  transition: all 0.2s;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+  background-color: var(--colorBranco);
+}
+
+.listaResposte li{
+  margin: 5px 0 5px 0;
+  padding: 15px 0 15px 0;
+  justify-content: space-between;
+  display: flex;
+}
+.listaResposte li:hover{
+  background-color: var(--colorVerde);
+  color: var(--colorBranco);
+  cursor: pointer;
+}
+.listaResposte li p{
+  padding: 0 10% 0 10%;
+
+}
 </style>
