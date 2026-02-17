@@ -1,18 +1,14 @@
 
 <template>
-
-
-
-
     <main>
 
-        <header>
+        <!-- <header>
             <h2>CADASTRO</h2>
             <input type='text' v-model='produto' @keyup.enter="copiou" class='inputProdut' autofocus
                 placeholder="  Escanei o codigo" />
 
 
-        </header>
+        </header> -->
 
         <div>
             <ul>
@@ -80,6 +76,8 @@ import { ShoppingCartIcon } from '@heroicons/vue/24/solid'
 
 
 export default {
+  name: 'DashboardView',
+
   data() {
     return {
       produto: "", //7898912284129

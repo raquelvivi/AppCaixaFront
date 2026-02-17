@@ -6,22 +6,22 @@
 
     <div class="linha">
         <div>
-            <p>Total: {{ valor }}</p>
-            <p>Produtos: {{ quantidadePro }}</p>
+            <p>Total: {{ valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</p>
+            <p>Produtos: {{ quantidadeTotal }}</p>
         </div>
-        <input type="text" placeholder="Cliente">
+        <input v-model="cliente" type="text" placeholder="Cliente">
     </div>
 
     <center>
     <div class="divImputPago">
         <p class="labelPago">Valor Pago:</p>
-        <input class="pago" type="number"  @input="formatarData" placeholder="  Digite o valor pago">
+        <input v-model="recebido" class="pago" type="number"  @input="formatarData" placeholder="  Digite o valor pago">
     </div>
     </center>
 
     <div class="salvar">
         <div class="salvarDiv">
-            <p>Troco: </p> <p class="pSalvar">37.00</p>
+            <p>Troco: </p> <p class="pSalvar">{{ (recebido - valorTotal).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</p>
         </div>
 
         <button class="ButSalvar">Salvar</button>
@@ -41,11 +41,25 @@
 
 
 export default {
+    props: {
+    lista: {
+      type: Array,
+      required: true
+    },
+    valorTotal: {
+      type: Number,
+      required: true
+    },
+    quantidadeTotal: {
+      type: Number,
+      required: true
+    }
+  },
      data() {
     return {
-      quantidadePro: 0, //7898912284129
-      valor: 0,
-      mostrarFinalizar: true,
+        cliente: "",
+        recebido: 0,
+        mostrarFinalizar: true,
     };
   },
   methods: {
