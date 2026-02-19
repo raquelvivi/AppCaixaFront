@@ -10,53 +10,63 @@
 
         </header> -->
 
-        <div>
-            <ul>
-                <li><label for="">Preço de Compra: </label><input v-model='produto' type="text"></li>
-                <li><label for="">Quantidade: </label><input type="text"></li>
-                <li><label for="">Nome: </label><input type="text"></li>
-                <li><label for="">Validade: </label><input type="date"></li>
-                <li>
-                    <select name="Categoria" id="categoria" onchange="selecaoSelect()">
-                        <option value="none">Categorias</option>
+        <p class="titulo">Cadastro</p>
 
-                        <!-- 🌱 Hortifruti / Plantas comestíveis -->
-                        <option value="frutas">Frutas</option>
-                        <option value="verduras">Verduras</option>
-                        <option value="folhas">Folhas</option>
-                        <option value="raizes">Raízes</option>
+        <div class="caixa">
+  <div class="form-grid">
 
-                        <!-- 🥩 Carnes e relacionados -->
-                        <option value="boi">Carnes Bovinas</option>
-                        <option value="porco">Carnes Suínas</option>
-                        <option value="aves">Aves</option>
-                        <option value="peixes">Peixes</option>
-                        <option value="industrializadas">Carnes Industrializadas</option>
+    <div class="form-group grande">
+      <label>Código</label>
+      <input v-model="codigo" type="text">
+    </div>
 
-                        <!-- 🧂 Temperos e condimentos -->
-                        <option value="temperos">Temperos</option>
+    <div class="form-group grande">
+      <label>Nome</label>
+      <input v-model="nome" type="text">
+    </div>
 
-                        <!-- 🛒 Produtos de prateleira -->
-                        <option value="graos">Grãos</option>
-                        <option value="cereais">Cereais (arroz, milho de pipoca, aveia)</option>
-                        <option value="farinhas">Farinhas e derivados</option>
-                        <option value="massas">Massas</option>
-                        <option value="enlatados">Enlatados e conservas</option>
-                        <option value="doces">Doces</option>
+    <div class="form-group">
+      <label>Quantidade Mínima</label>
+      <input v-model="qMinimo" type="number">
+    </div>
 
-                        <!-- 🍦 Itens de freezer / sorvetes -->
-                        <option value="sorvete">Sorvetes</option>
-                        <option value="polpas">Polpas de fruta congeladas</option>
+    <div class="form-group">
+      <label>Validade</label>
+      <input v-model="validade" type="date">
+    </div>
 
-                        <option value="outros">Outros</option>
-                    </select>
+    <div class="form-group">
+      <label>Quantidade</label>
+      <input v-model="qAtual" type="number">
+    </div>
 
-                </li>
-            </ul>
-        </div>
+    <div class="form-group">
+      <label>Vendedor</label>
+      <input v-model="vendedor" type="text">
+    </div>
 
-        <label for="">Preço de Venda</label><input type="text">
-        <p>Lucro</p>
+    <div class="form-group">
+      <label>Preço de Compra</label>
+      <input v-model="precoCompra" type="text">
+    </div>
+
+    <div class="form-group">
+      <label>Categoria</label>
+      <select>
+        <option value="none">Categorias</option>
+        <option value="frutas">Frutas</option>
+        <option value="verduras">Verduras</option>
+        <option value="graos">Grãos</option>
+        <option value="outros">Outros</option>
+      </select>
+    </div>
+
+  </div>
+
+  <button class="btnSalvar">Salvar Produto</button>
+</div>
+
+        
 
 
     </main>
@@ -80,6 +90,13 @@ export default {
 
   data() {
     return {
+      vendedor: '',
+      codigo: '',
+      precoCompra: 0,
+      validade: '',
+      qMinimo: 3,
+      qAtual: 0,
+
       produto: "", //7898912284129
       quant: "1",
       valor: 0,
@@ -114,28 +131,87 @@ export default {
 
 </script>
 
-<style>
-#app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    margin-top: 60px;
-    font-size: 20px;
+<style scoped>
+main {
+  min-height: 100vh;
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
+  background: linear-gradient(135deg, #88b082, #4f694f);
 }
 
-.inputProdut {
-    width: 70%;
-    height: 8vh;
-    font-size: 25px;
-    border: none;
-    border-bottom: var(--colorVerde) 2px solid;
-    border-radius: 10px;
-    /* outline: none; */
-    transition: all 0.2s;
-    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
-    margin-top: 20px;
+.titulo {
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 30px;
 }
+
+.caixa {
+  width: 80%;
+  max-width: 900px;
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.grande {
+  grid-column: span 2;
+}
+
+label {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+input, select {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 3px rgba(76,175,80,0.2);
+}
+
+.btnSalvar {
+  margin-top: 30px;
+  width: 100%;
+  padding: 14px;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btnSalvar:hover {
+  background: #1b5e20;
+  transform: translateY(-2px);
+}
+
+
 </style>
 
