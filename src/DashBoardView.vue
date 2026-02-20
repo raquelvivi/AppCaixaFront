@@ -9,6 +9,35 @@
 
 
         </header> -->
+        <div class="CadastroVendedor" v-if="mostrarFinalizar">
+          <p class="tituloCadastroVendedor">Cadastro Vendedor</p>
+          <div class="form-grid">
+          <div class="formVendedor form-group ">
+            <label>Nome</label>
+            <input v-model="nomeVendedor" type="text">
+          </div>
+
+          <div class="formVendedor form-group">
+            <label>Contato</label>
+            <input v-model="contato" type="text">
+          </div>
+
+          <div class="formVendedor form-group" >
+            <label>CNPJ</label>
+            <input v-model="cnpj" type="number">
+          </div>
+
+          <div class="formVendedor form-group" >
+            <label>Vinda no Mês</label>
+            <input v-model="vindaMes" type="date">
+          </div>
+          </div>
+
+          <button class="btVendedor">Salvar vendedor</button>
+
+        </div>
+
+
 
         <p class="titulo">Cadastro</p>
 
@@ -17,7 +46,7 @@
 
     <div class="form-group grande">
       <label>Código</label>
-      <input v-model="codigo" type="text">
+      <input v-model="codigo" autofocus type="text">
     </div>
 
     <div class="form-group grande">
@@ -62,6 +91,8 @@
     </div>
 
   </div>
+  
+  <button class="NoVendedor" @click="TelaPaga">Não Achou Vendedor? Vamos Criar!</button>
 
   <button class="btnSalvar">Salvar Produto</button>
 </div>
@@ -96,20 +127,29 @@ export default {
       validade: '',
       qMinimo: 3,
       qAtual: 0,
+      mostrarFinalizar: false,
+      nomeVendedor: '',
+      contato: '',
+      cnpj: '',
+      vindaMes: '',
 
-      produto: "", //7898912284129
-      quant: "1",
-      valor: 0,
-      tdPro: 0,
-      lista: [],
-      listaObjetos: [
-        { codigo: "", nome: "", valor: 0, quantidade: 0 },
-        {}]
+      // produto: "", //7898912284129
+      // quant: "1",
+      // valor: 0,
+      // tdPro: 0,
+      // lista: [],
+      // listaObjetos: [
+      //   { codigo: "", nome: "", valor: 0, quantidade: 0 },
+      //   {}]
     };
   },
   methods: {
     TelaPaga() {
-      alert("clicou");
+      if(this.mostrarFinalizar == true){
+        this.mostrarFinalizar = false;
+      }else{
+        this.mostrarFinalizar = true;
+      }
     },
     copiou() {
       if (this.produto && this.produto != " ") {
@@ -139,14 +179,14 @@ main {
   flex-direction: column;
   align-items: center;
 
-  background: linear-gradient(135deg, #88b082, #4f694f);
+  background: linear-gradient(135deg, #9ebb9a, #739173);
 }
 
 .titulo {
   font-size: 32px;
   font-weight: bold;
   color: white;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .caixa {
@@ -194,7 +234,7 @@ input:focus, select:focus {
 }
 
 .btnSalvar {
-  margin-top: 30px;
+  margin-top: 10px;
   width: 100%;
   padding: 14px;
   background: #2e7d32;
@@ -211,7 +251,53 @@ input:focus, select:focus {
   background: #1b5e20;
   transform: translateY(-2px);
 }
-
+.NoVendedor{
+ padding: 10px;
+ background-color: var(--colorVerdeClaro);
+ cursor: pointer;
+ border-radius: 10px;
+ margin: 10px 40px 0 40px;
+ width: 60%;
+}
+.CadastroVendedor{
+  /* background-color: var(--colorVerdeClaro);  */
+  backdrop-filter: blur(15px);
+  position: absolute;
+  margin-top: 20vh;
+  width: 55vw;
+  height: 50vh;
+  border-radius: 10px;
+  border: #2e7d32 solid 2px;
+}
+.formVendedor{
+  /* margin-top: 10px; */
+  margin:0 5% 5% 5%;
+  border-radius: 10px;
+}
+.tituloCadastroVendedor{
+  font-size: 20px;
+  margin: 20px;
+}
+.btVendedor{
+  margin-top: 10px;
+  width: 60%;
+  padding: 14px;
+  background: var(--colorBranco);
+  color: #2e7d32;
+  border: #2e7d32 solid 2px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btVendedor:hover {
+  background: #438248;
+  color: var(--colorBranco);
+  border: var(--colorBranco) solid 2px;
+  transform: translateY(-2px);
+  
+}
 
 </style>
 
