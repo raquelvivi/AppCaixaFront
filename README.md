@@ -1,6 +1,6 @@
 # 🖥️ App Caixa 
 
-#### O App Caixa Front é a interface de usuário (front-end) do ecossistema App Caixa. O projeto completo é integrado ao repositório: App Caixa Back.
+#### O App Caixa Front é a interface de usuário (front-end) do ecossistema App Caixa. O projeto completo é integrado ao repositório: [App Caixa Back](https://github.com/raquelvivi/appCaixaBack).
 
 #### Este sistema web foi desenvolvido especificamente para a gestão comercial de mercados e quitandas. A solução surgiu da necessidade real de mapear o fluxo de vendas, controle de estoque e margem de lucro de um comércio local. O projeto consolida anos de experiência no setor de vendas, traduzindo necessidades práticas em funcionalidades de controle financeiro, gestão de perdas, compras e conformidade com taxas governamentais.
 
