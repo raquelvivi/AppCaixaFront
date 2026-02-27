@@ -81,8 +81,9 @@ export default {
       item: this.lista
     });
        console.log(response);
-       if(response.status === 200){
+       if(response.status >= 200 && response.status < 300){
         alert("Compra realizada com sucesso!");
+        this.$emit('fechar');  // emite um evento para fechar a tela de finalizar compra
     }
 
   }
