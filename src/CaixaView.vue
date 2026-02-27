@@ -49,7 +49,7 @@
   <div>
     <div class="pesquisa">
 
-      <input type='text' v-model='produto' @keyup.enter="copiou" @input="buscarProdutos(produto)" class='inputProdut' autofocus
+      <input type='text' v-model='produto' @keyup.enter="copiou(produto)" @input="buscarProdutos(produto)" class='inputProdut' autofocus
         placeholder="  Escanei o codigo" />
 
       <p class="x">X</p>
@@ -91,7 +91,10 @@
                       maximumFractionDigits: 2 
                     }) }}
 
-          Produtos: {{ tdPro }}
+          Produtos: {{ tdPro.toLocaleString('pt-BR', {  // 2 decimais no minimo e maximo
+                      minimumFractionDigits: 2, 
+                      maximumFractionDigits: 2 
+                    }) }}
         </p>
       </div>
 
@@ -149,13 +152,19 @@ export default {
       }
       
     },
-    copiou() {
-      if (this.produto && this.produto != " ") {
+    async copiou(produto) {
+      if (produto && produto != " ") {
 
-        //fazer verificação se o codigo de barras é achado ou o nome é achado
-        //caso não seja cai no else
-        this.lista.push(this.produto)
+        const response = await axios.get(
+          `http://localhost:3000/prods/${produto}`
+        );
+
+        if(response.status >= 200 && response.status < 300){
+        
+        this.escolheuProdut(response.data)
         this.produto = ""
+    }
+        
       }
 
     },
@@ -164,7 +173,7 @@ export default {
     },
 
     async buscarProdutos(produto) {
-      if (produto.length > 2) {
+      if (produto.length > 2 && produto != " ") { // para não fazer requisição com 1 ou 2 caracteres, o que não é necessário
         const response = await axios.get(
           `http://localhost:3000/prods/label/${produto}`
         )
