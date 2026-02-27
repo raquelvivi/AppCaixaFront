@@ -9,7 +9,7 @@
             <p>Total: {{ valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</p>
             <p>Produtos: {{ quantidadeTotal }}</p>
         </div>
-        <input v-model="cliente" type="text" placeholder="Cliente">
+        <input v-model="pagoCom" type="text" placeholder="Ex: Dinheiro">
     </div>
 
     <center>
@@ -24,7 +24,7 @@
             <p>Troco: </p> <p class="pSalvar">{{ (recebido - valorTotal).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</p>
         </div>
 
-        <button class="ButSalvar">Salvar</button>
+        <button class="ButSalvar" @click="EfetuarCompra">Salvar</button>
         
     </div>
     
@@ -38,7 +38,7 @@
 
 
 <script>
-
+import axios from 'axios'
 
 export default {
     props: {
@@ -57,7 +57,7 @@ export default {
   },
      data() {
     return {
-        cliente: "",
+        pagoCom: "",
         recebido: 0,
         mostrarFinalizar: true,
     };
@@ -71,6 +71,20 @@ export default {
       style: 'currency',
       currency: 'BRL'
     }).format(numero)
+  },
+  async EfetuarCompra() {
+
+    const response = await axios.post(
+          `http://localhost:3000/compras`,
+    {
+      compra: this.pagoCom,
+      item: this.lista
+    });
+       console.log(response);
+       if(response.status === 200){
+        alert("Compra realizada com sucesso!");
+    }
+
   }
 }
  

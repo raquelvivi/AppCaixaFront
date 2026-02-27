@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import CaixaView from '../CaixaView.vue'
 import DashboardView from '../DashBoardView.vue'
+import CadastroProdutos from '../CadastroProdutos.vue'
 
 const routes = [
   {
@@ -13,6 +14,11 @@ const routes = [
     path: '/DashboardView',
     name: 'DashboardView',
     component: DashboardView
+  },
+  {
+    path: '/CadastroProdutos',
+    name: 'CadastroProdutos',
+    component: CadastroProdutos
   }
 ]
 
