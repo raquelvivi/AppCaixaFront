@@ -1,5 +1,5 @@
 
-<template>
+<template >
     <main>
 
         <!-- <header>
@@ -29,11 +29,11 @@
 
           <div class="formVendedor form-group" >
             <label>Vinda no Mês</label>
-            <input v-model="vindaMes" type="date">
+            <input v-model="vindaMes" type="number">
           </div>
           </div>
 
-          <button class="btVendedor">Salvar vendedor</button>
+          <button class="btVendedor" @click="CadastroVendedor">Salvar vendedor</button>
 
         </div>
 
@@ -71,7 +71,15 @@
 
     <div class="form-group">
       <label>Vendedor</label>
-      <input v-model="vendedor" type="text">
+      <select v-model="vendedor">
+        <option value="">Selecione um vendedor</option>
+        <option 
+          v-for="v in vendedores" 
+          :key="v.id" 
+          :value="v.id">
+          {{ v.nome}}
+        </option>
+      </select>
     </div>
 
     <div class="form-group">
@@ -86,6 +94,10 @@
         <option value="frutas">Frutas</option>
         <option value="verduras">Verduras</option>
         <option value="graos">Grãos</option>
+        <option value="prateleiras">Prateleiras</option>
+        <option value="bagana">Bagana</option>
+        <option value="carnes">Carnes</option>
+        <option value="congelados">Congelados</option>
         <option value="outros">Outros</option>
       </select>
     </div>
@@ -94,7 +106,7 @@
   
   <button class="NoVendedor" @click="TelaPaga">Não Achou Vendedor? Vamos Criar!</button>
 
-  <button class="btnSalvar">Salvar Produto</button>
+  <button class="btnSalvar" @click="CadastroProduto">Salvar Produto</button>
 </div>
 
         
@@ -114,14 +126,18 @@ import { ShoppingCartIcon } from '@heroicons/vue/24/solid'
 </script> -->
 
 <script>
+import axios from 'axios'
 
 
 export default {
   name: 'DashboardView',
 
+  async created() { // Chamado quando o componente é criado
+    await this.Inicio();
+  },
+
   data() {
     return {
-      vendedor: '',
       codigo: '',
       precoCompra: 0,
       validade: '',
@@ -132,13 +148,15 @@ export default {
       contato: '',
       cnpj: '',
       vindaMes: '',
+      vendedor: '',
+      vendedores: [],
 
       // produto: "", //7898912284129
       // quant: "1",
       // valor: 0,
       // tdPro: 0,
-      // lista: [],
-      // listaObjetos: [
+      // vendedores: [],
+      // vendedoresObjetos: [
       //   { codigo: "", nome: "", valor: 0, quantidade: 0 },
       //   {}]
     };
@@ -151,20 +169,78 @@ export default {
         this.mostrarFinalizar = true;
       }
     },
-    copiou() {
-      if (this.produto && this.produto != " ") {
+    async CadastroVendedor() {
+      if(this.codigo){
 
-        //fazer verificação se o codigo de barras é achado ou o nome é achado
-        //caso não seja cai no else
-        this.lista.push(this.produto)
-        this.produto = ""
+        const response = await axios.post(
+          `http://localhost:3000/venderd`,
+          {
+            nome: this.nomeVendedor,
+            contato: this.contato,
+            cnpj: this.cnpj,
+            vindames: this.vindaMes
+          }
+        );
+
+        if(response.status >= 200 && response.status < 300){
+          alert(`Vendedor ${this.nomeVendedor} cadastrado com sucesso!`);
+        }
+
+        this.nomeVendedor = '';
+        this.contato = '';
+        this.cnpj = '';
+        this.vindaMes = '';
+        this.mostrarFinalizar = false;
+      }else{
+        alert("Preencha todos os campos para cadastrar o vendedor!");
+      }
+    },
+    async Inicio() {
+
+        try {
+          const response = await axios.get(`http://localhost:3000/venderd`);
+          this.vendedores = response.data;
+          console.log(this.vendedores); 
+        } catch (error) {
+          console.error("Erro ao buscar vendedores:", error);
+  }
+
+  },
+  async CadastroProduto(){
+    if(this.codigo && this.nomeProduto && this.precoCompra && this.validade && this.qMinimo && this.qAtual && this.categoria && this.vendedor){
+
+        const response = await axios.post(
+          `http://localhost:3000/venderd`,
+          {
+            nome: this.nomeVendedor,
+            contato: this.contato,
+            cnpj: this.cnpj,
+            vindames: this.vindaMes
+          }
+        );
+
+        if(response.status >= 200 && response.status < 300){
+          alert(`Vendedor ${this.nomeVendedor} cadastrado com sucesso!`);
+        }
+
+        this.nomeVendedor = '';
+        this.contato = '';
+        this.cnpj = '';
+        this.vindaMes = '';
+        this.mostrarFinalizar = false;
+      }else{
+        alert("Preencha todos os campos para cadastrar o vendedor!");
       }
 
-    },
-    apagar() {
-      alert("apagou");
-    }
+
   },
+
+
+
+
+},
+
+
 };
 
 

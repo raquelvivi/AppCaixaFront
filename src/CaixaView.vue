@@ -158,10 +158,14 @@ export default {
         const response = await axios.get(
           `http://localhost:3000/prods/${produto}`
         );
+        let dados = response.data;
+
+        console.log(dados[0]); 
+        alert("copiou " + dados);
 
         if(response.status >= 200 && response.status < 300){
         
-        this.escolheuProdut(response.data)
+        this.escolheuProdut(dados[0]);
         this.produto = ""
     }
         
