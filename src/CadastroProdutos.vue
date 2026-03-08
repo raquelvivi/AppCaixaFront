@@ -51,12 +51,12 @@
 
     <div class="form-group grande">
       <label>Nome</label>
-      <input v-model="nome" type="text">
+      <input v-model="nomeProduto" type="text">
     </div>
 
     <div class="form-group">
       <label>Quantidade Mínima</label>
-      <input v-model="qMinimo" type="number">
+      <input v-model="quantminimo" type="number">
     </div>
 
     <div class="form-group">
@@ -66,7 +66,7 @@
 
     <div class="form-group">
       <label>Quantidade</label>
-      <input v-model="qAtual" type="number">
+      <input v-model="quant" type="number">
     </div>
 
     <div class="form-group">
@@ -84,12 +84,17 @@
 
     <div class="form-group">
       <label>Preço de Compra</label>
-      <input v-model="precoCompra" type="text">
+      <input v-model="precocompra" @input="calculoValorDeVenda" type="number" step="0.01">
+    </div>
+
+    <div class="form-group">
+      <label>Preço de Venda</label>
+      <input v-model="precovenda" type="number" step="0.01">
     </div>
 
     <div class="form-group">
       <label>Categoria</label>
-      <select>
+      <select v-model="categoria">
         <option value="none">Categorias</option>
         <option value="frutas">Frutas</option>
         <option value="verduras">Verduras</option>
@@ -139,10 +144,10 @@ export default {
   data() {
     return {
       codigo: '',
-      precoCompra: 0,
+      precocompra: 0,
       validade: '',
-      qMinimo: 3,
-      qAtual: 0,
+      quantminimo: 3,
+      quant: 0,
       mostrarFinalizar: false,
       nomeVendedor: '',
       contato: '',
@@ -150,7 +155,8 @@ export default {
       vindaMes: '',
       vendedor: '',
       vendedores: [],
-
+      precovenda: 0,
+      categoria: '',
       // produto: "", //7898912284129
       // quant: "1",
       // valor: 0,
@@ -162,6 +168,10 @@ export default {
     };
   },
   methods: {
+    calculoValorDeVenda(){
+      this.precovenda = (parseFloat(this.precocompra) * (30 / 100)) + parseFloat(this.precocompra);
+      this.precovenda = this.precovenda.toFixed(2);
+    },
     TelaPaga() {
       if(this.mostrarFinalizar == true){
         this.mostrarFinalizar = false;
@@ -207,30 +217,42 @@ export default {
 
   },
   async CadastroProduto(){
-    if(this.codigo && this.nomeProduto && this.precoCompra && this.validade && this.qMinimo && this.qAtual && this.categoria && this.vendedor){
+    if(this.codigo && this.nomeProduto && this.precocompra && this.validade && this.quantminimo && this.quant && this.categoria && this.vendedor && this.precovenda){
 
         const response = await axios.post(
-          `http://localhost:3000/venderd`,
+          `http://localhost:3000/prods`,
           {
-            nome: this.nomeVendedor,
-            contato: this.contato,
-            cnpj: this.cnpj,
-            vindames: this.vindaMes
+            codigo: this.codigo,
+            nome: this.nomeProduto,
+            precocompra: this.precocompra,
+            validade: this.validade,
+            quantminimo: this.quantminimo,
+            quant: this.quant,
+            categoria: this.categoria,
+            vendedor: this.vendedor,
+            precovenda: this.precovenda
           }
         );
 
         if(response.status >= 200 && response.status < 300){
-          alert(`Vendedor ${this.nomeVendedor} cadastrado com sucesso!`);
-        }
+          alert(`Produto ${this.nomeProduto} cadastrado com sucesso!`);
 
-        this.nomeVendedor = '';
-        this.contato = '';
-        this.cnpj = '';
-        this.vindaMes = '';
-        this.mostrarFinalizar = false;
-      }else{
-        alert("Preencha todos os campos para cadastrar o vendedor!");
-      }
+          this.codigo = '';
+          this.nomeProduto = '';
+          this.precocompra = 0;
+          this.validade = '';
+          this.quantminimo = 3;
+          this.quant = 0;
+          this.vindaMes = '';
+          this.mostrarFinalizar = false;
+          this.precovenda = 0;
+        }
+        
+    }
+    else{
+        alert("Preencha todos os campos para cadastrar o Produto!");
+        console.log(`${this.codigo} - ${this.nomeProduto} - ${this.precocompra} - ${this.validade} - ${this.quantminimo} - ${this.quant} - ${this.categoria} - ${this.vendedor} - ${this.precovenda}`);
+    }
 
 
   },
