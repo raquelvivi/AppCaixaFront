@@ -1,5 +1,8 @@
 
 <template >
+
+  <CabecalhoView />
+
     <main>
 
         <!-- <header>
@@ -46,12 +49,12 @@
 
     <div class="form-group grande">
       <label>Código</label>
-      <input v-model="codigo" autofocus type="text">
+      <input v-model="codigo" id="inputCodigoBarras" @keyup.enter="codigoDeBarras" autofocus type="text">
     </div>
 
     <div class="form-group grande">
       <label>Nome</label>
-      <input v-model="nomeProduto" type="text">
+      <input v-model="nomeProduto"  style="text-transform: capitalize;" type="text">
     </div>
 
     <div class="form-group">
@@ -132,10 +135,14 @@ import { ShoppingCartIcon } from '@heroicons/vue/24/solid'
 
 <script>
 import axios from 'axios'
+import CabecalhoView from "./components/CabecalhoView.vue"
 
 
 export default {
   name: 'DashboardView',
+  components: {
+    CabecalhoView
+  },
 
   async created() { // Chamado quando o componente é criado
     await this.Inicio();
@@ -143,6 +150,7 @@ export default {
 
   data() {
     return {
+      
       codigo: '',
       precocompra: 0,
       validade: '',
@@ -168,6 +176,15 @@ export default {
     };
   },
   methods: {
+    codigoDeBarras() {
+      // Logica de proteção contra usuarios
+
+      let inputCodigoBarras = document.getElementById("inputCodigoBarras");
+
+      inputCodigoBarras.readOnly = true; // Torna o campo somente leitura para evitar alterações acidentais
+      inputCodigoBarras.style.backgroundColor = "#e0e0e0";
+
+    },
     calculoValorDeVenda(){
       this.precovenda = (parseFloat(this.precocompra) * (30 / 100)) + parseFloat(this.precocompra);
       this.precovenda = this.precovenda.toFixed(2);
@@ -235,6 +252,8 @@ export default {
         );
 
         if(response.status >= 200 && response.status < 300){
+          let inputCodigoBarras = document.getElementById("inputCodigoBarras");
+          
           alert(`Produto ${this.nomeProduto} cadastrado com sucesso!`);
 
           this.codigo = '';
@@ -246,6 +265,8 @@ export default {
           this.vindaMes = '';
           this.mostrarFinalizar = false;
           this.precovenda = 0;
+          inputCodigoBarras.readOnly = false; 
+          inputCodigoBarras.style.backgroundColor = "#fff";
         }
         
     }
@@ -270,6 +291,7 @@ export default {
 </script>
 
 <style scoped>
+
 main {
   min-height: 100vh;
   padding: 40px 0;
