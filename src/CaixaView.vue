@@ -36,8 +36,26 @@
 
 
   <ul class="UlLista">
-    <li v-for="(item, index) in ObjetosCompras" :key="index" class="lista">
-      <p> {{ item.quantidadeV }}</p> <p>{{ item.nome }}</p> <p>{{ item.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</p>
+    <li v-for="(item, index) in ObjetosCompras" :key="index" class="lista"
+    :style="{ backgroundColor: (index%2) === 0 ? 'white' : '#E7F5E7' }">
+      <p v-if="!item.editando" @click="item.editando = true">
+        {{ item.quantidadeV }}
+      </p>
+
+      <input 
+        v-else
+        v-model="this.quantNova"
+        @blur="item.editando = false; atualizarItem(item, this.ObjetosCompras, this.quantNova)"
+      />
+      <p>{{ item.nome }}</p>
+
+    <div style="display: flex;">
+      <p>{{ item.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</p>
+      <p :style="{display: index === 0 ? 'none' : 'block'}" 
+      @click="retirar(item, this.ObjetosCompras)" style=" cursor: pointer; color: brown;">X</p>
+    </div>
+     
+      
     </li>
   </ul>
 
@@ -106,7 +124,8 @@ export default {
       ItemProduto: [],
       mostrarFinalizar: false,
       produto: '',
-      produtos: []
+      produtos: [],
+      quantNova: null,
     };
   },
 
@@ -175,6 +194,35 @@ export default {
       this.tdPro = 0;
       this.ObjetosCompras = [{ nome: 'Item', valor: 'Preço Total', quantidadeV: 'Quantidade' }];
       this.ItemProduto = [];
+    },
+    retirar(item, array) {
+
+			const index = array.indexOf(item);
+			if (index > -1) {
+				this.valorTotal = this.valorTotal - item.valor;
+        this.tdPro = parseFloat(this.tdPro) - parseFloat(item.quantidadeV) ; 
+
+        array.splice(index, 1);
+        this.ItemProduto.splice(index-1, 1);
+        console.log(this.ItemProduto);
+			}
+
+		},
+    atualizarItem(item, array, novaQuantidade){
+      const index = array.indexOf(item);
+			if (index > -1) {
+				this.valorTotal = this.valorTotal - item.valor;
+        let precoUnitario = item.valor / item.quantidadeV; // preço unitário do produto
+        item.valor = parseFloat(precoUnitario) * parseFloat(novaQuantidade); // atualiza o valor total do item com base na nova quantidade
+        
+        this.valorTotal = this.valorTotal + item.valor;
+
+        this.tdPro = parseFloat(this.tdPro) - parseFloat(item.quantidadeV) ; 
+        item.quantidadeV = parseFloat(novaQuantidade); // atualiza a quantidade do item
+        this.tdPro = parseFloat(this.tdPro) + parseFloat(item.quantidadeV) ; 
+        this.ItemProduto[index-1].quantComprada = parseFloat(novaQuantidade); // atualiza a quantidade comprada no objeto que será enviado para o banco
+        console.log(this.ItemProduto);
+			}
     },
 
 
@@ -293,7 +341,7 @@ header {
 }
 
 .UlLista li {
-  padding: 5px 0 0px 0;
+  padding: 5px 5% 0px 0;
   display: flex;
   justify-content: space-between;
 }

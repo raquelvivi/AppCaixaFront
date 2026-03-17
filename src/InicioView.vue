@@ -15,9 +15,12 @@
 			<div class="dadosBanco">
 				<p class="titulo">Vencidos</p>
 				<div>
-					<li v-for="(item, index) in vencidos" :key="index" >
-						<p>{{ item.nome }}</p>
+					<li v-for="(item, index) in vencidos" :key="index"  
+						:style="{ backgroundColor: (index%2) === 0 ? 'white' : '#E7F5E7' }">
+						<p @click="retirar(item, this.vencidos)">X</p>
+						<p style="overflow-x: auto;">{{ item.nome }}</p>
 						<p :style="{ color: new Date(item.validade) < data ? 'red' : 'green' }"> {{ item.validade }}</p>
+						
 					</li>
 				</div>
 
@@ -30,8 +33,10 @@
 
 				<p class="titulo">Estoque Baixo</p>
 				<div>
-					<li v-for="(item, index) in estoqueBaixo" :key="index" style="justify-content: center;">
-						<p>{{ item.nome }}</p>
+					<li v-for="(item, index) in estoqueBaixo" :key="index" style="justify-content: center;"
+					:style="{ backgroundColor: (index%2) === 0 ? 'white' : '#E7F5E7' }">
+						<p @click="retirar(item, this.estoqueBaixo)">X</p>
+						<p style="overflow-x: auto;">{{ item.nome }}</p>
 					</li>
 				</div>
 
@@ -48,7 +53,7 @@
 
 </template>
 
-<script>
+<script >
 import axios from 'axios';
 import CabecalhoView from "./components/CabecalhoView.vue";
 
@@ -97,6 +102,15 @@ export default {
 
 			this.estoqueBaixo = response.data;
 		},
+		async retirar(item, array) {
+
+
+
+			const index = array.indexOf(item);
+			if (index > -1) {
+				array.splice(index, 1);
+			}
+		},
 	}
 }
 
@@ -120,7 +134,7 @@ export default {
 }
 
 .dadosBanco {
-	width: 20vw;
+	width: 25vw;
 	height: 40vh;
 	margin: 0 0 0 10vw;
 	background-color: white;
@@ -135,7 +149,7 @@ export default {
 .dadosBanco div {
 	
 	margin-bottom: 20px;
-	OVERFLOW-Y: scroll;
+	OVERFLOW-Y: auto;
 }
 
 .titulo {
@@ -167,6 +181,9 @@ button {
 	padding: 5px 0 0px 0;
 	display: flex;
 	justify-content: space-between;
+	cursor: pointer;
+
+	flex-direction: row;
 
 }
 
