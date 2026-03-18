@@ -338,6 +338,7 @@ header {
   background-color: var(--colorBranco);
   border: var(--colorVerde) 2px solid;
   border-radius: 10px;
+  overflow: auto;
 }
 
 .UlLista li {

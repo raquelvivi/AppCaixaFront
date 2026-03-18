@@ -21,7 +21,7 @@
         <center>
             <div class="divImputPago">
                 <p class="labelPago">Valor Pago:</p>
-                <input v-model="recebido" class="pago" type="number"  @input="formatarData" placeholder="  Digite o valor pago"> -->
+                <input v-model="recebido" class="pago" type="number"  @input="formatarData" placeholder="  Digite o valor pago"> 
             </div>
         </center>
 

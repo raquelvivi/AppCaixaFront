@@ -15,17 +15,17 @@
 			<div class="dadosBanco">
 				<p class="titulo">Vencidos</p>
 				<div>
-					<li v-for="(item, index) in vencidos" :key="index"  
-						:style="{ backgroundColor: (index%2) === 0 ? 'white' : '#E7F5E7' }">
+					<li v-for="(item, index) in vencidos" :key="index"
+						:style="{ backgroundColor: (index % 2) === 0 ? 'white' : '#E7F5E7' }">
 						<p @click="retirar(item, this.vencidos)">X</p>
 						<p style="overflow-x: auto;">{{ item.nome }}</p>
 						<p :style="{ color: new Date(item.validade) < data ? 'red' : 'green' }"> {{ item.validade }}</p>
-						
+
 					</li>
 				</div>
 
 
-				<button type="button">Retirar</button>
+				<button type="button" @click="retirarTudo">Retirar</button>
 
 			</div>
 
@@ -33,14 +33,21 @@
 
 				<p class="titulo">Estoque Baixo</p>
 				<div>
-					<li v-for="(item, index) in estoqueBaixo" :key="index" style="justify-content: center;"
-					:style="{ backgroundColor: (index%2) === 0 ? 'white' : '#E7F5E7' }">
+					<li v-for="(item, index) in estoqueBaixo" :key="index" style=""
+						:style="{ backgroundColor: (index % 2) === 0 ? 'white' : '#E7F5E7' }">
 						<p @click="retirar(item, this.estoqueBaixo)">X</p>
 						<p style="overflow-x: auto;">{{ item.nome }}</p>
+						<p>{{ item.quant }}</p>
 					</li>
 				</div>
 
-				<button type="button">Efetuar Compra</button>
+
+				<a :href="`https://wa.me/5584996247885?text=Mensagem%20de%20Teste%20Nao%20Responda%0APedido%20de%20Compra%0A${mensagem()}%0AMensagem%20Automatica`"
+					target="_blank">
+					Efetuar Compra
+				</a>
+
+
 
 			</div>
 
@@ -53,7 +60,7 @@
 
 </template>
 
-<script >
+<script>
 import axios from 'axios';
 import CabecalhoView from "./components/CabecalhoView.vue";
 
@@ -78,14 +85,6 @@ export default {
 	},
 
 	methods: {
-		TelaPaga() {
-			if (this.mostrarFinalizar == true) {
-				this.mostrarFinalizar = false;
-			} else {
-				this.mostrarFinalizar = true;
-			}
-
-		},
 
 		async BuscaValidade() {
 			const response = await axios.get(
@@ -104,13 +103,33 @@ export default {
 		},
 		async retirar(item, array) {
 
-
-
 			const index = array.indexOf(item);
 			if (index > -1) {
-				array.splice(index, 1);
+
+				const response = await axios.put(
+					`http://localhost:3000/prods/${item.codigo}`
+				);
+
+				if (response.status === 200) {
+					console.log('Produto retirado com sucesso!');
+					array.splice(index, 1); // Remove o item do array local
+				} else {
+					console.error('Erro ao retirar o produto:', response.statusText);
+				}
 			}
 		},
+		async retirarTudo() {
+			for (const item of this.vencidos) {
+				await this.retirar(item, this.vencidos);
+			}
+		},
+		mensagem() {
+			let msg = '';
+			this.estoqueBaixo.forEach(item => {
+				msg += `%0A ${item.nome} - Quantidade: ${item.quant*10} ${item.categoria === 'Fruta' ? 'kilos' : 'unidades'}`;
+			});
+			return msg;
+		}
 	}
 }
 
@@ -147,7 +166,7 @@ export default {
 }
 
 .dadosBanco div {
-	
+
 	margin-bottom: 20px;
 	OVERFLOW-Y: auto;
 }
@@ -158,9 +177,10 @@ export default {
 	margin-bottom: 20px;
 }
 
-button {
+.dadosBanco button,
+a {
 	width: 80%;
-	height: 30px;
+	height: auto;
 	background-color: var(--colorVerde);
 	color: white;
 	border: none;
@@ -171,6 +191,8 @@ button {
 	margin-top: auto;
 	align-self: center;
 	margin-bottom: 20px;
+	padding: 5px;
+
 }
 
 .dados {
