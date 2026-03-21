@@ -4,12 +4,18 @@ import CaixaView from '../CaixaView.vue'
 import DashboardView from '../DashBoardView.vue'
 import CadastroProdutos from '../CadastroProdutos.vue'
 import InicioView from '../InicioView.vue'
+import ComprasView from '../ComprasView.vue'
 
 const routes = [
   {
     path: '/CaixaView',
     name: 'CaixaView',
     component: CaixaView
+  },
+  {
+    path: '/ComprasView',
+    name: 'ComprasView',
+    component: ComprasView
   },
   {
     path: '/DashboardView',

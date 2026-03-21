@@ -246,8 +246,8 @@ export default {
             quantminimo: this.quantminimo,
             quant: this.quant,
             categoria: this.categoria,
+            precovenda: this.precovenda,
             vendedor: this.vendedor,
-            precovenda: this.precovenda
           }
         );
 
