@@ -43,7 +43,7 @@
       </p>
 
       <input 
-        v-else
+        v-else class="inputAtualiza"
         v-model="this.quantNova"
         @blur="item.editando = false; atualizarItem(item, this.ObjetosCompras, this.quantNova)"
       />
@@ -319,6 +319,18 @@ header {
   /*sombra*/
 
 
+}
+.inputAtualiza {
+    width: 10%;
+    height: 4vh;
+    font-size: 15px;
+    border: none;
+    border-bottom: var(--colorVerde) 2px solid;
+    border-radius: 10px;
+    /* outline: none; */
+    transition: all 0.2s;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+    margin-left: 15px;
 }
 
 .img {
