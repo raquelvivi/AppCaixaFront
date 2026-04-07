@@ -56,14 +56,24 @@
 <br/><br/>
 ## 🖼️ Imagens
 
-<img width="1917" height="957" alt="image" src="https://github.com/user-attachments/assets/1d66fadc-1e45-4dde-a5e3-23e9ffadb3b1" />
+<img width="1902" height="911" alt="Captura de tela 2026-04-06 231401" src="https://github.com/user-attachments/assets/66fd43a3-2f36-4325-83c6-5c57c9fc7a5d" />
 <img width="1910" height="911" alt="image" src="https://github.com/user-attachments/assets/a75451a0-cbdc-4a84-95f3-fa4986b7cb10" />
 <img width="1918" height="957" alt="image" src="https://github.com/user-attachments/assets/c6d8cb03-6c0e-4d87-a0cf-919fcd08c63e" />
 <img width="1918" height="960" alt="image" src="https://github.com/user-attachments/assets/56583fb6-e4e9-4417-8c85-fdbfaaeaa111" />
 <img width="1912" height="958" alt="image" src="https://github.com/user-attachments/assets/ce2cfb9c-6f57-4c27-97fa-5086dd160abf" />
+<img width="1899" height="913" alt="Captura de tela 2026-04-06 231508" src="https://github.com/user-attachments/assets/9cbaef93-2bea-4401-927e-c91c5f75b61a" />
+<img width="1910" height="914" alt="Captura de tela 2026-04-06 231531" src="https://github.com/user-attachments/assets/bc7943f5-6b5a-43a0-8560-5633ddebd211" />
+
 
 
 </br></br>
+
+## Problemas
+
+#### Um dos principais desafios deste front-end é a definição de uma interface intuitiva e acessível. O sistema é utilizado por pessoas com pouca familiaridade com tecnologia, o que exige decisões cuidadosas de usabilidade, como escolha de cores, hierarquia visual e simplificação das interações. Nesse contexto, o desafio não é apenas técnico, mas também de experiência do usuário, buscando reduzir erros e tornar o uso o mais natural possível.
+
+#### Outro desafio relevante está relacionado à modelagem da interface para produtos perecíveis, especialmente aqueles vendidos por peso, como carnes, frutas e verduras. Diferente de produtos industrializados, esses itens nem sempre possuem validade bem definida, o que dificulta a padronização no sistema. Assim, foi necessário pensar em formas eficientes de representar, registrar e manipular esses dados sem comprometer a praticidade, considerando que os usuários precisam realizar operações rápidas e simples no dia a dia.
+
 <!--
 ## Problemas
 #### Neste projeto, enfrentei um desafio baseado no clássico "na minha máquina funciona". O aplicativo operava perfeitamente no computador e no Expo, mas o cenário mudou na transformação para APK. Durante a execução do APK, a tela dinâmica /pg/[id] não carregava corretamente: ao navegar para ela, o aplicativo exibia a mensagem “Carregando...” indefinidamente.
