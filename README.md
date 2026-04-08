@@ -52,6 +52,10 @@
    ```bash
    npm run serve
    ```
+   <!-- 
+   front vue = npm run serve
+   back nest = npm run start:dev   
+   -->
 
 <br/><br/>
 ## 🖼️ Imagens

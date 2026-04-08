@@ -68,20 +68,19 @@ export default {
         },
         // BUSCAR PRODUTO PELO CODIGO DE BARRAS
         async copiou(produto) {
-            if (produto && produto != " ") {
+            if (produto != " ") {
 
                 const response = await axios.get(
                     `http://localhost:3000/prods/${produto}`
                 );
-                let dados = response.data;
+                console.log(this.produtos[0]);
 
-                console.log(dados[0]);
+                // if (response.status >= 200 && response.status < 300) {
 
-                if (response.status >= 200 && response.status < 300) {
-
-                    this.produtos = dados[0]
+                    console.log('Produto encontrado:');
+                    this.produtos = response.data
                     this.produto = ""
-                }
+                // }
             }
 
         },

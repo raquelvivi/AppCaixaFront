@@ -155,7 +155,7 @@ export default {
 .dadosBanco {
 	width: 25vw;
 	height: 40vh;
-	margin: 0 0 0 10vw;
+	
 	background-color: white;
 	border: 3px solid var(--colorVerde);
 	border-radius: 15px;
@@ -197,6 +197,10 @@ a {
 
 .dados {
 	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	margin-top: 15%;
+
 }
 
 .dadosBanco li {

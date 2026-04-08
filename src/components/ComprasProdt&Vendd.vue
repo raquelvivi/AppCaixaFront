@@ -67,7 +67,7 @@ export default {
         escolheuVendedor(item) {
             console.log("Vendedor escolhido:", item);
             this.ObjetosCompras.push({
-                quant: 1,
+                quant: 10,
                 nome: item.nome,
                 codigo: item.codigo,
                 Preco: item.Preco,
