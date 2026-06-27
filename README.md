@@ -54,7 +54,9 @@
    ```
    <!-- 
    front vue = npm run serve
-   back nest = npm run start:dev   
+   back nest = npm run start:dev 
+
+   onde achar icones:  https://heroicons.com/?utm_source=chatgpt.com
    -->
 
 <br/><br/>

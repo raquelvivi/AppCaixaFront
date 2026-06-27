@@ -15,7 +15,7 @@
 
             </div>
 
-            <!-- LISTA DE VENDEDORES -->
+            <!-- LISTA DE VENDEDORES
             <div class="listaVendedores">
                 <p>Vendedores:</p>
                 <ul class="listaResposte ulVend">
@@ -29,7 +29,7 @@
                     </li>
                 </ul>
 
-            </div>
+            </div> -->
 
         </div>
     </div>
@@ -38,7 +38,6 @@
 
 
 <script>
-import axios from 'axios'
 
 export default {
     name: 'ComprasProdtVendd',
@@ -47,24 +46,30 @@ export default {
 
   data() {
     return {
-      vendedores: [],
       ObjetosCompras: []
     }
   },
     methods: {
         
         async escolheuProdut(item) {
-            console.log(item);
-            const response = await axios.get(
-                `http://localhost:3000/tem/${item.codigo}`
-            );
-            this.vendedores = response.data;
-            console.log(this.vendedores);
+            this.$emit('limpar-produtos')
+
+            this.ObjetosCompras.push({
+                quant: 10,
+                nome: item.nome,
+                codigo: item.codigo,
+                PrecoVenda: item.precovenda,
+                valor: item.precocompra 
+            });
 
             this.$emit('limpar-produtos')
+            this.$emit('enviar-ObjetosCompras', this.ObjetosCompras)
             
         },
         escolheuVendedor(item) {
+
+
+
             console.log("Vendedor escolhido:", item);
             this.ObjetosCompras.push({
                 quant: 10,

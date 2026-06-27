@@ -12,7 +12,7 @@
         </div>
     <main>
 
-         <ComprasProdtVendd 
+        <ComprasProdtVendd 
             :produtos="this.produtos"
             @limpar-produtos="produtos = [], produto = ''"
             @enviar-ObjetosCompras="receberCompras"
