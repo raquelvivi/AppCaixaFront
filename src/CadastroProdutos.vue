@@ -197,7 +197,7 @@ export default {
       }
     },
     async CadastroVendedor() {
-      if(this.codigo){
+      if(this.nomeVendedor){
 
         const response = await axios.post(
           `http://localhost:3000/venderd`,
@@ -240,6 +240,7 @@ export default {
           `http://localhost:3000/prods`,
           {
             codigo: this.codigo,
+            fkproduto: this.codigo,
             nome: this.nomeProduto,
             precocompra: this.precocompra,
             validade: this.validade,

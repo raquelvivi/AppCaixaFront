@@ -364,7 +364,8 @@ export default {
           `http://localhost:3000/venderd`
         )
 
-        this.fornecedores = response.data
+        this.fornecedores = response.data;
+        // console.log("fornecedores", this.fornecedores);
     },
     abrirProduto(produtoId) {
       console.log("Produto clicado com ID:", produtoId);
