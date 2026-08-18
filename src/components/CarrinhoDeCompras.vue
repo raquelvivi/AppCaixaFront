@@ -1,6 +1,6 @@
 <template>
 
-<!-- <div class="ViewCompra" v-if="abrir">
+<div class="ViewCompra" v-if="abrir">
     <h3 class="tituloFinalizaComp">Finalizar Compra</h3>
 
     <div class="container">
@@ -34,7 +34,7 @@
                       <p class="PNomePequeno" @click="retirar(item, this.ObjetosCompras)"
                         style=" cursor: pointer; color: brown; margin-right: 15px;">X</p> -->
 
-                    <!-- <p v-if="!item.editando" class="PNomePequeno" @click="item.editando = true">
+                     <p v-if="!item.editando" class="PNomePequeno" @click="item.editando = true"> 
                         {{ item.quant }}
                     </p>
 
@@ -52,7 +52,7 @@
     </div>
 
 
-</div> --> 
+</div> 
 
     <!-- LISTA DE COMPRAS -->
     <div class="listaCompras">
@@ -134,7 +134,7 @@
     data() {
         return {
             quant: 1,       // v-model da quantidade
-            abrir: true,
+            abrir: false,
             NewPriceV: 0, 
             quantNova: 10, 
             quantNovaValor: 0,

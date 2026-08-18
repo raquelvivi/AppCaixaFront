@@ -19,7 +19,7 @@
 						:style="{ backgroundColor: (index % 2) === 0 ? 'white' : '#E7F5E7' }">
 						<p @click="retirar(item, this.vencidos)">X</p>
 						<p style="overflow-x: auto;">{{ item.nome }}</p>
-						<p :style="{ color: new Date(item.validade) < data ? 'red' : 'green' }"> {{ item.validade }}</p>
+						<p :style="{ color: converterParaData(item.validade) < data ? 'red' : 'green' }"> {{ item.validade }}</p>
 
 					</li>
 				</div>
@@ -107,7 +107,7 @@ export default {
 			if (index > -1) {
 
 				const response = await axios.put(
-					`http://localhost:3000/prods/${item.codigo}`
+					`http://localhost:3000/prods/${item.id_historico_validade}`
 				);
 
 				if (response.status === 200) {
@@ -123,6 +123,23 @@ export default {
 				await this.retirar(item, this.vencidos);
 			}
 		},
+	
+		converterParaData(validadeFormatada) {
+			if (!validadeFormatada) return new Date();
+			
+			// Pega o dia e o mês enviados pelo back-end (ex: "15/07")
+			const [dia, mes] = validadeFormatada.split('/');
+			
+			// Pega o ano atual do sistema (ex: 2026)
+			const anoAtual = new Date().getFullYear();
+			
+			// Cria um objeto de data válido no fuso horário local, zerando as horas
+			const dataValidade = new Date(anoAtual, mes - 1, dia);
+			dataValidade.setHours(0, 0, 0, 0);
+			
+			return dataValidade;
+		},
+
 		mensagem() {
 			let msg = '';
 			this.estoqueBaixo.forEach(item => {
