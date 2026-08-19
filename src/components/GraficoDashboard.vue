@@ -1,5 +1,6 @@
 <template>
     <div class="grafico-container">
+        <h5>Ultimas Vendas</h5>
         <Line :data="chartData" :options="chartOptions" />
     </div>
 </template>
@@ -139,11 +140,13 @@ export default {
 
 <style scoped>
 .grafico-container {
-    width: 80%;
+    border: 1px solid #eeeeee;
+    width: 40%;
     height: 40vh;
-    margin: 40px auto;
+    margin: 20px 0;
     background: white;
     padding: 20px;
+    padding-bottom: 30px;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 
