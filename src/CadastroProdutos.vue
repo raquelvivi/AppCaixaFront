@@ -200,7 +200,7 @@ export default {
       if(this.nomeVendedor){
 
         const response = await axios.post(
-          `http://localhost:3000/venderd`,
+          `${process.env.VUE_APP_API_URL}/venderd`,
           {
             nome: this.nomeVendedor,
             contato: this.contato,
@@ -225,7 +225,7 @@ export default {
     async Inicio() {
 
         try {
-          const response = await axios.get(`http://localhost:3000/venderd`);
+          const response = await axios.get(`${process.env.VUE_APP_API_URL}/venderd`);
           this.vendedores = response.data;
           console.log(this.vendedores); 
         } catch (error) {
@@ -234,10 +234,10 @@ export default {
 
   },
   async CadastroProduto(){
-    if(this.codigo && this.nomeProduto && this.precocompra && this.validade && this.quantminimo && this.quant && this.categoria && this.vendedor && this.precovenda){
+    if(this.codigo && this.nomeProduto && this.precocompra && this.validade && this.quantminimo && this.quant && this.categoria && this.precovenda){
 
         const response = await axios.post(
-          `http://localhost:3000/prods`,
+          `${process.env.VUE_APP_API_URL}/prods`,
           {
             codigo: this.codigo,
             fkproduto: this.codigo,
@@ -248,7 +248,7 @@ export default {
             quant: this.quant,
             categoria: this.categoria,
             precovenda: this.precovenda,
-            vendedor: this.vendedor,
+            vendedor: '1',
           }
         );
 

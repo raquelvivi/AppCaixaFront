@@ -70,7 +70,7 @@ export default {
   },
   async created() {
     const produtoId = this.$route.params.id; // Pega o ID da URL
-    const response = await axios.get(`http://localhost:3000/prods/${produtoId}`);
+    const response = await axios.get(`${process.env.VUE_APP_API_URL}/prods/${produtoId}`);
     this.produto = response.data[0];
     this.lucro = this.produto.precovenda - this.produto.precocompra;
 },
@@ -109,7 +109,7 @@ export default {
         alert("você tem certeza que quer mudar o  produto?");
 
         const response = await axios.put(
-                `http://localhost:3000/prods/product/${this.produto.codigo}`,
+                `${process.env.VUE_APP_API_URL}/prods/product/${this.produto.codigo}`,
                 { 
                     nome: this.produto.nome,
                     validade: this.produto.validade,

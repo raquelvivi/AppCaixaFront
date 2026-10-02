@@ -9,7 +9,7 @@
         <div class="dados">
             <p style="text-align: left; width: 100%; margin-left: 100px;">Dados do Produto:</p>
             <label>Codigo:</label>
-            <input v-model="produto.codigo" class="input-grande" readOnly style="background-color: #e0e0e0"/>
+            <input v-model="produto.codigo" class="input-grande" readOnly  style="background-color: #e0e0e0"/>
             <label>Nome:</label>
             <input v-model="produto.nome" class="input-grande"/>
             <div class="linhas">
@@ -25,11 +25,14 @@
             <div class="linhas">
                 <div class="unidade">
                     <label>Preço de Compra:</label>
-                    <input v-model="produto.precocompra" @input="this.lucro = (this.produto.precovenda - this.produto.precocompra).toFixed(2);" class="input-pequeno"/>
+                    <input v-model="produto.precocompra" :disabled="!modoCompra" style="" :style="{ backgroundColor: modoCompra === true ? '#fff' : '#e0e0e0' }" 
+                    @input="produto.precovenda = (parseFloat(produto.precocompra) + (parseFloat(produto.precocompra) * 0.3)).toFixed(2)
+                    this.lucro = (this.produto.precovenda - this.produto.precocompra).toFixed(2);" class="input-pequeno"/>
                 </div>
                 <div class="unidade">
                     <label>Preço de Venda:</label>
-                    <input v-model="produto.precovenda" @input="this.lucro = (this.produto.precovenda - this.produto.precocompra).toFixed(2)" class="input-pequeno"/>
+                    <input v-model="produto.precovenda" :disabled="!modoCompra" style="" :style="{ backgroundColor: modoCompra === true ? '#fff' : '#e0e0e0' }" 
+                    @input="this.lucro = (this.produto.precovenda - this.produto.precocompra).toFixed(2)" class="input-pequeno"/>
                 </div>
             </div>
             <div class="linhas">
@@ -39,8 +42,14 @@
                 </div>
                 <div class="unidade">
                     <label>Lucro:</label>
-                    <input v-model="lucro" class="input-pequeno" readOnly style="background-color: #e0e0e0"/>
+                    <input v-model="lucro" class="input-pequeno" readOnly style=""
+						:style="{ backgroundColor: modoCompra === true ? '#fff' : '#e0e0e0' }" />
                 </div>
+            </div>
+            <div class="unidade">
+                <label>Validade:</label>
+                <input v-model="produto.validade" class="input-pequeno" :disabled="!modoCompra" style=""
+                    :style="{ backgroundColor: modoCompra === true ? '#fff' : '#e0e0e0' }" />
             </div>
         </div>
 
@@ -50,8 +59,11 @@
             <p class="acoesAlterar bt" @click="alterar()"> Salvar Alterações</p>
             <p class="acoesExcluir bt" @click="excluir()"> 🗑️ Excluir Produto</p>
             <p class="acoesVoltar bt"  @click="voltar()"> Voltar para Pesquisa</p>
+            <p class="acoesComprar bt"  @click="comprar()"> + Fazer Compra?</p>
 
         </div>
+
+         
 
     </div>
 
@@ -70,15 +82,20 @@ export default {
   },
   async created() {
     const produtoId = this.$route.params.id; // Pega o ID da URL
-    const response = await axios.get(`http://localhost:3000/prods/${produtoId}`);
+    const response = await axios.get(`${process.env.VUE_APP_API_URL}/prods/${produtoId}`);
     this.produto = response.data[0];
-    this.lucro = this.produto.precovenda - this.produto.precocompra;
+    if (this.produto.validade) {
+      this.produto.validade = this.produto.validade.substring(0, 10);
+    }
+
+    this.lucro = (this.produto.precovenda - this.produto.precocompra).toFixed(2);
 },
   
   data() {
     return {
       produto: [],
       lucro: 0,
+      modoCompra: false,
       
     };
   },
@@ -104,20 +121,61 @@ export default {
         //     }
 
     },
+    comprar(){
+        if(this.modoCompra){
+            this.modoCompra = false;
+        }else{
+            this.modoCompra = true;
+        }
+
+    },
     async alterar(){
 
+        if(this.modoCompra){
+            alert("você tem certeza que quer mudar o  produto?");
+
+        const response = await axios.post(
+                `${process.env.VUE_APP_API_URL}/prods/product/${this.produto.codigo}`,
+                { 
+                    prod:{
+                        nome: this.produto.nome,
+                        categoria: this.produto.categoria,
+                        quantminimo: this.produto.quantminimo,
+                    },
+                    historico:{
+                        quant: this.produto.quant,
+                        precocompra: this.produto.precocompra,
+                        precovenda: this.produto.precovenda,
+                        validade: this.produto.validade,
+                        fkproduto: this.produto.codigo,
+                    }
+
+                 }
+            )
+
+            if (response.data === true) {
+                alert("atividade bem Sucedida")
+                
+            } else {
+                alert("Erro ao criar historico.");
+            }
+            return;
+        }
         alert("você tem certeza que quer mudar o  produto?");
 
         const response = await axios.put(
-                `http://localhost:3000/prods/product/${this.produto.codigo}`,
+                `${process.env.VUE_APP_API_URL}/prods/product/${this.produto.codigo}`,
                 { 
-                    nome: this.produto.nome,
-                    validade: this.produto.validade,
-                    quant: this.produto.quant,
-                    precocompra: this.produto.precocompra,
-                    precovenda: this.produto.precovenda,
-                    categoria: this.produto.categoria,
-                    quantminimo: this.produto.quantminimo,
+                    prod:{
+                        nome: this.produto.nome,
+                        categoria: this.produto.categoria,
+                        quantminimo: this.produto.quantminimo,
+                    },
+                    historico:{
+                        quant: this.produto.quant,
+                        precocompra: this.produto.precocompra,
+                        precovenda: this.produto.precovenda,
+                    }
 
                  }
             )
@@ -144,7 +202,7 @@ export default {
 }
 
 .dados{
-    height: 80vh;
+    height: 85vh;
     width: 70%;
     margin: 0 4% 0 8%;
     background-color: white;
@@ -225,6 +283,12 @@ export default {
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
     border: rgb(176, 176, 176) solid 2px;
+}
+.acoesComprar{
+    margin-top: 40px;
+    background-color: rgb(211, 159, 0);
+    color: rgb(255, 245, 230);
+    border: rgb(156, 104, 0) solid 2px;
 }
 
 </style>

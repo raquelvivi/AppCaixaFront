@@ -46,7 +46,7 @@
           </div>
           <div class="textoBlocoDados">
             <p class="TituloBlocoDados" >Vendas Do Dia</p>
-            <p class="numeroValor" style="color: #9505ab;">R$ {{ PesquisaDashboard.Financeiro?.soma_total_mes || 0 }}</p>
+            <p class="numeroValor" style="color: #9505ab;">R$ {{ PesquisaDashboard.Financeiro?.soma_total_hoje || 0 }}</p>
             <p class="descricao">Vendas do Dia</p>
           </div>
         </div>
@@ -57,7 +57,7 @@
           </div>
           <div class="textoBlocoDados">
             <p class="TituloBlocoDados">Despesas Do Dia</p>
-            <p class="numeroValor" style="color: #ab0505;">R$ {{ PesquisaDashboard.Financeiro?.despesas_mes || 0 }}</p>
+            <p class="numeroValor" style="color: #ab0505;">R$ {{ PesquisaDashboard.Financeiro?.despesas_hoje || 0 }}</p>
             <p class="descricao">Despesas do Dia</p>
           </div>
         </div>
@@ -86,7 +86,7 @@
           </div>
           <div class="textoBlocoDados">
             <p class="TituloBlocoDados" >Estoque</p>
-            <p class="numeroValor" style="color: #ab058a;">R$ {{ PesquisaDashboard.Estoque?.Quantidade_produtos_No_Estoque || 0 }}</p>
+            <p class="numeroValor" style="color: #ab058a;">{{ PesquisaDashboard.Estoque?.Quantidade_produtos_No_Estoque || 0 }}</p>
             <p class="descricao">total de produtos no estoque</p>
           </div>
         </div>
@@ -108,7 +108,7 @@
           </div>
           <div class="textoBlocoDados">
             <p class="TituloBlocoDados">Estoque Baixo</p>
-            <p class="numeroValor" style="color: #6eab05;">R$ {{ PesquisaDashboard.Estoque?.Produtos_Sem_Estoque || 0 }}</p>
+            <p class="numeroValor" style="color: #6eab05;">{{ PesquisaDashboard.Estoque?.Produtos_Sem_Estoque || 0 }}</p>
             <p class="descricao"> </p>
           </div>
         </div>
@@ -119,7 +119,7 @@
           </div>
           <div class="textoBlocoDados">
             <p class="TituloBlocoDados" >Vendedores</p>
-            <p class="numeroValor" style="color: #aba805;">R$ {{ PesquisaDashboard.Outros?.vendedores || 0 }}</p>
+            <p class="numeroValor" style="color: #aba805;">{{ PesquisaDashboard.Outros?.vendedores || 0 }}</p>
             <p class="descricao">Vendedores Cadastrados</p>
           </div>
         </div>
@@ -243,7 +243,7 @@ export default {
   methods: {
     async BuscaDashboard() {
 			const response = await axios.get(
-				`http://localhost:3000/compras/dashboard/`
+				`${process.env.VUE_APP_API_URL}/compras/dashboard/`
 			);
 
 			this.PesquisaDashboard = response.data;

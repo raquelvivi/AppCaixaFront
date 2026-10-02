@@ -97,9 +97,7 @@ export default {
       return Math.max(
         ...this.produtos.map(produto =>
           Number(
-            produto.total_vendido ||
-            produto.ValorTotalVendido ||
-            0
+            produto.total_vendido || produto.ValorTotalVendido || 0
           )
         )
       );
@@ -113,9 +111,7 @@ export default {
     calcularPorcentagem(produto) {
 
       const quantidade = Number(
-        produto.total_vendido ||
-        produto.ValorTotalVendido ||
-        0
+        produto.total_vendido || produto.ValorTotalVendido || 0
       );
 
       return (quantidade / this.maiorQuantidade) * 100;

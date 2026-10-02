@@ -113,6 +113,14 @@ export default {
     FinalizarCompra,
     CabecalhoView
   },
+  mounted() {
+    this.intervaloBalanca = setInterval(() => {
+      this.lerBalanca();
+    }, 200);
+  },
+  beforeUnmount() {
+    clearInterval(this.intervaloBalanca);
+  },
   
   data() {
     return {
@@ -126,6 +134,7 @@ export default {
       produto: '',
       produtos: [],
       quantNova: null,
+      intervaloBalanca: null,
     };
   },
 
@@ -142,7 +151,7 @@ export default {
       if (produto && produto != " ") {
 
         const response = await axios.get(
-          `http://localhost:3000/prods/${produto}`
+          `${process.env.VUE_APP_API_URL}/prods/${produto}`
         );
         let dados = response.data;
 
@@ -164,7 +173,7 @@ export default {
     async buscarProdutos(produto) {
       if (produto.length > 2 && produto != " ") { // para não fazer requisição com 1 ou 2 caracteres, o que não é necessário
         const response = await axios.get(
-          `http://localhost:3000/prods/label/${produto}`
+          `${process.env.VUE_APP_API_URL}/prods/label/${produto}`
         )
 
         this.produtos = response.data
@@ -224,6 +233,17 @@ export default {
         console.log(this.ItemProduto);
 			}
     },
+    async lerBalanca() {
+      try {
+        const response = await axios.get('http://localhost:9101/peso');
+
+        this.quant = response.data.peso;
+        console.log('Peso lido da balança:', this.quant);
+
+      } catch (erro) {
+        console.log('Balança não conectada');
+      }
+    },
 
 
   }
@@ -267,7 +287,7 @@ header {
 }
 
 .quant {
-  width: 4%;
+  width: 8%;
   height: 7vh;
   font-size: 25px;
   border: var(--colorVerde) 2px solid;

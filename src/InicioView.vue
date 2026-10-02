@@ -85,10 +85,11 @@ export default {
 	},
 
 	methods: {
+		
 
 		async BuscaValidade() {
 			const response = await axios.get(
-				`http://localhost:3000/prods/validade`
+				`${process.env.VUE_APP_API_URL}/prods/validade`
 			);
 
 			this.vencidos = response.data;
@@ -96,7 +97,7 @@ export default {
 		},
 		async BuscaEstoqueB() {
 			const response = await axios.get(
-				`http://localhost:3000/prods/repo`
+				`${process.env.VUE_APP_API_URL}/prods/repo`
 			);
 
 			this.estoqueBaixo = response.data;
@@ -107,7 +108,7 @@ export default {
 			if (index > -1) {
 
 				const response = await axios.put(
-					`http://localhost:3000/prods/${item.id_historico_validade}`
+					`${process.env.VUE_APP_API_URL}/prods/${item.id_historico_validade}`
 				);
 
 				if (response.status === 200) {

@@ -84,16 +84,36 @@ export default {
         async EfetuarCompra() {
 
             const response = await axios.post(
-                `http://localhost:3000/compras`,
+                `${process.env.VUE_APP_API_URL}/compras`,
                 {
                     compra: this.pagoCom,
                     item: this.lista
                 });
             console.log(response);
             if (response.status >= 200 && response.status < 300) {
+
+                console.log(this.valorTotal.toPrecision(2));
+                console.log(this.valorTotal);
+
+                console.log((999999999.77777).toString(3));
+
                 alert("Compra realizada com sucesso!");
+
+                const print = await axios.post(
+                `http://localhost:9100/print`,
+                {
+                    lista: this.lista,
+                    valorTotal: this.valorTotal.toFixed(2),
+                    quantidadeTotal: this.quantidadeTotal
+                });
+                
+                if (print.status >= 200 && print.status < 300) {
+
+
                 this.$emit('fechar');  // emite um evento para fechar a tela de finalizar compra
             }
+
+         }
 
         }
     }

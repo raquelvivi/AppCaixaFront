@@ -58,7 +58,7 @@ export default {
     console.log("entrei")
     const fornecedorId = this.$route.params.id; // Pega o ID da URL
     console.log(fornecedorId)
-    const response = await axios.get(`http://localhost:3000/venderd/${fornecedorId}`);
+    const response = await axios.get(`${process.env.VUE_APP_API_URL}/venderd/${fornecedorId}`);
     this.fornecedor = response.data;
     console.log(this.fornecedor)
 },
@@ -79,7 +79,7 @@ export default {
          alert("você tem certeza que quer apagar o produto? Não sera possivel obte-lo novamente");
 
         const response = await axios.delete(
-                `http://localhost:3000/venderd/${this.fornecedor.id}`
+                `${process.env.VUE_APP_API_URL}/venderd/${this.fornecedor.id}`
             )
 
             if (response.status === 200) {
@@ -95,7 +95,7 @@ export default {
         alert("você tem certeza que quer mudar o  produto?");
 
         const response = await axios.put(
-                `http://localhost:3000/venderd/${this.fornecedor.id}`,
+                `${process.env.VUE_APP_API_URL}/venderd/${this.fornecedor.id}`,
                 { 
                     nome: this.fornecedor.nome,
                     site: this.fornecedor.site,

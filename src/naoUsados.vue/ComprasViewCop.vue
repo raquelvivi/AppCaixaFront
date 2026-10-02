@@ -59,7 +59,7 @@ export default {
         async buscarProdutos(produto) {
             if (produto.length > 2 && produto != " ") { // para não fazer requisição com 1 ou 2 caracteres, o que não é necessário
                 const response = await axios.get(
-                    `http://localhost:3000/prods/label/${produto}`
+                    `${process.env.VUE_APP_API_URL}/prods/label/${produto}`
                 )
 
                 this.produtos = response.data
@@ -73,7 +73,7 @@ export default {
             if (produto != " ") {
 
                 const response = await axios.get(
-                    `http://localhost:3000/prods/${produto}`
+                    `${process.env.VUE_APP_API_URL}/prods/${produto}`
                 );
                 console.log(this.produtos[0]);
 

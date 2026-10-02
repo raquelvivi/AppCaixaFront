@@ -116,7 +116,7 @@
 
             </li>
         </ul>
-        <div @click="comprarCoisas" class="botao">
+        <div @click="comprarCoisas(ObjetosCompras)" class="botao">
             <p style=" margin-top: 13%;">Comprar</p>
         </div>
     </div>
@@ -161,7 +161,7 @@
             alert("você tem certeza que quer mudar o valor de compra do produto? Seu valor sera mudado no banco de dados!")
 
             const response = await axios.put(
-                    `http://localhost:3000/prods/product/${item.codigo}`,
+                    `${process.env.VUE_APP_API_URL}/prods/product/${item.codigo}`,
                     { precocompra: parseFloat(novaQuantidade) }
                 )
 
@@ -183,7 +183,7 @@
             
             if (r==true){
                  const response = await axios.put(
-                    `http://localhost:3000/prods/product/${item.codigo}`,
+                    `${process.env.VUE_APP_API_URL}/prods/product/${item.codigo}`,
                     { precovenda: parseFloat(novaQuantidade) }
                 )
 
@@ -205,12 +205,21 @@
            
             
         },
-        comprarCoisas(){
-            if (this.abrir) {
-                this.abrir = false;
-            }else{
-                this.abrir = true;
+        async comprarCoisas(ObjetosCompras) {
+        
+            if (ObjetosCompras.length > 1 && ObjetosCompras != " ") { // para não fazer requisição com 1 ou 2 caracteres, o que não é necessário
+                const response = await axios.get(
+                    `${process.env.VUE_APP_API_URL}/prods/label/${ObjetosCompras}`
+                )
+                if (response.status >= 200 && response.status < 300) {
+                    alert('Compra realizada com sucesso!');
+                } else {
+                    alert('Erro ao realizar a compra.');
+                }
+            } else {
+                alert('precisa ter produtos para realizar a compra');
             }
+        
             
         },
         

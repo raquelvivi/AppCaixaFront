@@ -316,7 +316,7 @@ export default {
     async buscarProdutos(produto) {
       if (produto.length > 2 && produto != " ") { // para não fazer requisição com 1 ou 2 caracteres, o que não é necessário
         const response = await axios.get(
-          `http://localhost:3000/prods/label/${produto}`
+          `${process.env.VUE_APP_API_URL}/prods/label/${produto}`
         )
 
         
@@ -329,7 +329,7 @@ export default {
 
     async InicioBusca() {
         const response = await axios.get(
-          `http://localhost:3000/prods`
+          `${process.env.VUE_APP_API_URL}/prods`
         )
         if (response.data.length > 20) {
           this.produtos = response.data.slice(0, 16); // Exibe apenas os primeiros 16 produtos
@@ -343,7 +343,7 @@ export default {
     async buscarFornecedor(fornecedor) {
       if (fornecedor.length > 2 && fornecedor != " ") { // para não fazer requisição com 1 ou 2 caracteres, o que não é necessário
         const response = await axios.get(
-          `http://localhost:3000/venderd/nome/${fornecedor}`
+          `${process.env.VUE_APP_API_URL}/venderd/nome/${fornecedor}`
         )
 
         this.fornecedores = response.data
@@ -354,14 +354,14 @@ export default {
 
     async buscarVendas() {
         const response = await axios.get(
-          `http://localhost:3000/compras/ultimas-vendas`
+          `${process.env.VUE_APP_API_URL}/compras/ultimas-vendas`
         )
 
         this.vendas = response.data
     },
     async buscarfornecedoresTodos() {
         const response = await axios.get(
-          `http://localhost:3000/venderd`
+          `${process.env.VUE_APP_API_URL}/venderd`
         )
 
         this.fornecedores = response.data;
